@@ -1,5 +1,5 @@
 <?php
-require('./config.php');
+require('../config.php');
 
 function getPosts()
 {
@@ -26,12 +26,21 @@ function getComments($postId)
 {
   $db = dbConnect();
   $comments = $db->prepare("SELECT id, author, comment, to_char(comment_date, 'dd-mm-YYYY à HH24:MM:SS') AS comment_date_fr FROM comments WHERE post_id = :id ORDER BY comment_date DESC");
-  
+
   $comments->execute([
     ':id' => $postId
   ]);
 
   return $comments;
+}
+
+function postComment($postId, $author, $comment)
+{
+  $db = dbConnect();
+  $comments = $db->prepare('INSERT INTO comments(post_id, author, comment, comment_date) VALUES(?, ?, ?, NOW())');
+  $affectedLines = $comments->execute(array($postId, $author, $comment));
+
+  return $affectedLines;
 }
 
 function dbConnect()
