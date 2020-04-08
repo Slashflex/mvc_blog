@@ -34,8 +34,9 @@
 <?php
 while ($comment = $comments->fetch()) {
 ?>
-  <p><strong><?= htmlspecialchars($comment['author']) ?></strong> le <?= $comment['comment_date_fr'] ?></p>
+  <p><strong><?= htmlspecialchars($comment['author']) ?></strong> le <?= $comment['creation_comment_fr'] ?></p>
   <p><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
+  <a href="index.php?action=editComment&id=<?= $comment['id']; ?>">modifier</a>
 <?php
 }
 ?>
